@@ -1,8 +1,9 @@
-let currentSize = 16;
+// Selecting constant containers/buttons for repeated used throughout script //
 const canvasContainer = document.querySelector('.canvas-container');
 const clearBtn = document.querySelector('#clear-btn');
 const changeSizeBtn = document.querySelector('#change-size-btn');
 
+// This function allows the changeColor function to generate a random color //
 function randomNumber(upperLimit) {
     return Math.floor(Math.random() * upperLimit);
 };
@@ -13,6 +14,14 @@ function changeColor(e) {
     this.removeEventListener('mouseover', changeColor);
 };
 
+function addSketchListeners() {
+    const allGridDivs = document.querySelectorAll('.grid-space');
+    allGridDivs.forEach(item => {
+        item.addEventListener('mouseover', changeColor);
+    });
+};
+
+// These functions are called when initially loading the website and when the user chooses to change the size of the grid //
 function createGrid(gridHeight) {
     for (let i = 0; i < gridHeight; ++i) {
         createRow(gridHeight);
@@ -32,18 +41,11 @@ function createRow(rowWidth) {
         newGridDiv.style.height = gridDivSize;
         newGridDiv.style.width = gridDivSize;
         newRow.appendChild(newGridDiv);
-        // newGridDiv.addEventListener('mouseover', changeColor());
     };
     canvasContainer.appendChild(newRow)
 };
 
-function addSketchListeners() {
-    const allGridDivs = document.querySelectorAll('.grid-space');
-    allGridDivs.forEach(item => {
-        item.addEventListener('mouseover', changeColor);
-    });
-};
-
+// General grid functions //
 function clearGrid() {
     const allGridDivs = document.querySelectorAll('.grid-space');
     allGridDivs.forEach(item => {
@@ -84,6 +86,7 @@ function changeSize() {
     addSketchListeners();
 };
 
+// Button functionality //
 clearBtn.addEventListener('click', () => {
     clearGrid();
     addSketchListeners();
