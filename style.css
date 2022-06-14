@@ -6,6 +6,13 @@ body,
     box-sizing: border-box;
 }
 
+/* Creating CSS variables */
+
+:root {
+    --bgColor: #FFFFFF;
+    --penColor: #0782cf;
+}
+
 /* Main divisions */
 body {
     background-color: #827397;
@@ -16,7 +23,7 @@ body {
 
 
 .header,
-.footer {
+footer {
     align-items: center;
     background-color: #E9D5CA;
     color: #897397;
@@ -30,7 +37,7 @@ body {
     border-bottom: 5px solid #4D4C7D
 }
 
-.footer {
+footer {
     border-top: 5px solid #4D4C7D;
 }
 
@@ -38,7 +45,7 @@ body {
     font-size: 3rem;
 }
 
-.footer p {
+footer p {
     font-size: 1.5rem;
 }
 
@@ -65,11 +72,13 @@ body {
     color: #E9D5CA;
     display: flex;
     align-items: center;
+    font-size: 1.5rem;
 }
 
 input[type=color] {
     background-color: transparent;
     border: transparent;
+    flex-shrink: 0;
     height: 60px;
     margin: 5px;
     width: 60px;
@@ -80,10 +89,40 @@ input[type=color] {
     border-radius: 50%;
 }
 
+.color-controls-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+    padding: 20px 0px;
+}
+
+.toggle-button {
+    background-color: #E9D5CA;
+    border: 3px solid #827397;
+    border-radius: 20px;
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 3px;
+}
+
+.toggle-button:active,
+.active {
+    top: 2px;
+    left: 2px;
+    background-color: #897397;
+    color: #E9D5CA;
+}
+
+#rainbow-mode-btn {
+    margin: 30px 0;
+}
+
 /* Interactive Canvas */
 
 .canvas-container {
-    background-color: #E9D5CA;
+    background-color: var(--bgColor);
     border: 5px solid #4D4C7D;
     height: 730px;
     width: 730px;
@@ -94,7 +133,6 @@ input[type=color] {
 }
 
 .grid-space {
-    background-color: white;
     border: 1px solid black;
     height: 12px;
     width: 12px;

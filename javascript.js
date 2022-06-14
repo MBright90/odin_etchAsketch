@@ -1,37 +1,34 @@
 // Selecting constant containers/buttons for repeated used throughout script //
+const root = document.querySelector(':root');
+
 const canvasContainer = document.querySelector('.canvas-container');
 const clearBtn = document.querySelector('#clear-btn');
 const changeSizeBtn = document.querySelector('#change-size-btn');
-
-// This function allows the changeColor function to generate a random color //
-function randomNumber(upperLimit) {
-    return Math.floor(Math.random() * upperLimit);
-};
-
-function changeColor(e) {
-    let newColor = `rgb(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)})`;
-    this.style.backgroundColor = newColor;
-};
+const toggleButtons = document.querySelectorAll('.toggle-button');
 
 
 // Adds 'mouseover' event listeners when mouse button goes down, and removes them when mouse button goes up.
 function addSketchListeners() {
-    canvasContainer.addEventListener('mousedown', () => {
-        const allGridDivs = document.querySelectorAll('.grid-space');
+    const allGridDivs = document.querySelectorAll('.grid-space');
+    canvasContainer.addEventListener('click', () => {
         allGridDivs.forEach(item => {
-            item.addEventListener('mouseover', changeColor);
+            item.addEventListener('click', placeColor);
+        })
+    })
+    canvasContainer.addEventListener('mousedown', () => {
+        allGridDivs.forEach(item => {
+            item.addEventListener('mouseover', placeColor);
         });
     });
     canvasContainer.addEventListener('mouseup', () => {
-        const allGridDivs = document.querySelectorAll('.grid-space');
         allGridDivs.forEach(item => {
-            item.removeEventListener('mouseover', changeColor);
+            item.removeEventListener('mouseover', placeColor);
         });
     });
 };
 
 
-// These functions are called when initially loading the website and when the user chooses to change the size of the grid //
+// -----------------------***### Grid creation functions ###***----------------------- //
 function createGrid(gridHeight) {
     for (let i = 0; i < gridHeight; ++i) {
         createRow(gridHeight);
@@ -55,12 +52,12 @@ function createRow(rowWidth) {
     canvasContainer.appendChild(newRow)
 };
 
-// General grid functions //
+// -----------------------***### General grid functions ###***----------------------- //
 function clearGrid() {
     const allGridDivs = document.querySelectorAll('.grid-space');
     allGridDivs.forEach(item => {
-        item.style.backgroundColor = '#fff';
-        item.removeEventListener('mouseover', changeColor);
+        item.style.backgroundColor = 'transparent';
+        item.removeEventListener('click', placeColor);
     });
 };
 
@@ -96,13 +93,80 @@ function changeSize() {
     addSketchListeners();
 };
 
-// Button functionality //
+// -----------------------***### Color controls functionality ###***----------------------- //
+
+// Pen color selector
+function penColorStartup() {
+    const penColorSelector = document.querySelector('#pen-color-selector')
+    penColorSelector.addEventListener('change', changePenColor);
+};
+
+function changePenColor(e) {
+    root.style.setProperty('--penColor', `${e.target.value}`);
+};
+
+function placeColor(e) {
+    let colorMode = checkMode();
+    
+    // Place IF statement regarding rainbow color activity
+    // newColor = `rgb(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)})`;
+    // this.style.backgroundColor = newColor;
+
+    let rootStyle = getComputedStyle(root);
+    let newColor = rootStyle.getPropertyValue('--penColor');
+    this.style.backgroundColor = newColor;
+};
+
+// This function allows the placeColor function to generate a random color //
+function randomNumber(upperLimit) {
+    return Math.floor(Math.random() * upperLimit);
+};
+
+// Background selector
+function backgroundColorStartup() {
+    const backgroundColorSelector = document.querySelector('#background-color-selector');
+    backgroundColorSelector.addEventListener('input', changeBackgroundColor);
+};
+
+function changeBackgroundColor(e) {
+    root.style.setProperty('--bgColor', `${e.target.value}`);
+};
+
+// Button toggles
+function toggleButtonStartup() {
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', toggleButton);
+    });
+};
+
+function toggleButton (e) {
+    this.classList.add('active');
+    toggleButtons.forEach(button => {
+        if (button !== this) {
+            button.classList.remove('active');
+        };
+    })
+};
+
+function checkMode() {
+    toggleButtons.forEach(button => {
+        if (button.classList.contains('active')) {
+            console.log(button.id);
+            return button.id;
+        };
+    });
+};
+
+// -----------------------***### Canvas Button functionality ###***----------------------- //
 clearBtn.addEventListener('click', () => {
     clearGrid();
     addSketchListeners();
 });
 changeSizeBtn.addEventListener('click', changeSize);
 
-// Initializing website on entry // 
+// -----------------------***### Initializing website on entry ###***----------------------- // 
 createGrid(24);
 addSketchListeners();
+backgroundColorStartup();
+penColorStartup();
+toggleButtonStartup();
