@@ -11,15 +11,25 @@ function randomNumber(upperLimit) {
 function changeColor(e) {
     let newColor = `rgb(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)})`;
     this.style.backgroundColor = newColor;
-    this.removeEventListener('mouseover', changeColor);
 };
 
+
+// Adds 'mouseover' event listeners when mouse button goes down, and removes them when mouse button goes up.
 function addSketchListeners() {
-    const allGridDivs = document.querySelectorAll('.grid-space');
-    allGridDivs.forEach(item => {
-        item.addEventListener('mouseover', changeColor);
+    canvasContainer.addEventListener('mousedown', () => {
+        const allGridDivs = document.querySelectorAll('.grid-space');
+        allGridDivs.forEach(item => {
+            item.addEventListener('mouseover', changeColor);
+        });
+    });
+    canvasContainer.addEventListener('mouseup', () => {
+        const allGridDivs = document.querySelectorAll('.grid-space');
+        allGridDivs.forEach(item => {
+            item.removeEventListener('mouseover', changeColor);
+        });
     });
 };
+
 
 // These functions are called when initially loading the website and when the user chooses to change the size of the grid //
 function createGrid(gridHeight) {
