@@ -2,8 +2,7 @@
 const root = document.querySelector(':root');
 
 const canvasContainer = document.querySelector('.canvas-container');
-const clearBtn = document.querySelector('#clear-btn');
-const changeSizeBtn = document.querySelector('#change-size-btn');
+
 const toggleButtons = document.querySelectorAll('.toggle-button');
 
 
@@ -106,15 +105,41 @@ function changePenColor(e) {
 };
 
 function placeColor(e) {
-    let colorMode = checkMode();
-    
-    // Place IF statement regarding rainbow color activity
-    // newColor = `rgb(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)})`;
-    // this.style.backgroundColor = newColor;
-
     let rootStyle = getComputedStyle(root);
-    let newColor = rootStyle.getPropertyValue('--penColor');
-    this.style.backgroundColor = newColor;
+    const colorMode = checkMode();
+
+    // Pen mode
+    if (colorMode === 'pen-mode-btn') {
+        let newColor = rootStyle.getPropertyValue('--penColor');
+        this.style.backgroundColor = newColor;
+
+    // Plus shading mode
+    } else if (colorMode === 'plus-shading-btn') {
+        console.log('plus shading')
+        // if (!this.dataset.shading) {
+        //     this.setAttribute('data-shading', 1);
+        // } else {
+        //     let shadingLevel = parseInt(e.target.dataset.shading);
+        //     shadingLevel++;
+        //     this.setAttribute('data-shading'. shadingLevel)
+        // };
+        // if (this.style.backgroundColor === 'transparent') {
+        //     this.style.backgroundColor = rootStyle.getPropertyValue('--bgColor');
+        // };
+
+    // Minus shading mode
+    } else if (colorMode === 'minus-shading-btn') {
+        console.log('minus shading');
+
+    // Rainbow mode
+    } else if (colorMode === 'rainbow-mode-btn') {
+        newColor = `rgb(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)})`;
+        this.style.backgroundColor = newColor;
+
+    // Eraser mode
+    } else if (colorMode === 'eraser-mode-btn') {
+        this.style.backgroundColor = 'transparent';
+    };
 };
 
 // This function allows the placeColor function to generate a random color //
@@ -149,23 +174,50 @@ function toggleButton (e) {
 };
 
 function checkMode() {
+    let mode = '';
     toggleButtons.forEach(button => {
         if (button.classList.contains('active')) {
-            console.log(button.id);
-            return button.id;
-        };
+            mode = button.id;
+        }
     });
+    return mode;
 };
 
-// -----------------------***### Canvas Button functionality ###***----------------------- //
+// -----------------------***### Additional Canvas Button functionality ###***----------------------- //
+const clearBtn = document.querySelector('#clear-btn');
+const changeSizeBtn = document.querySelector('#change-size-btn');
+
 clearBtn.addEventListener('click', () => {
     clearGrid();
     addSketchListeners();
 });
 changeSizeBtn.addEventListener('click', changeSize);
 
+
+// Trace functions
+
+const traceInput = document.querySelector('#image-input');
+traceInput.addEventListener('change', addTraceBg)
+
+let currentTraceFile = '';
+function addTraceBg (e) {
+    const uploadedFile = e.target.files[0];
+    if (checkFileType(e.target.files[0].name)) {
+        console.log(URL.createObjectURL(uploadedFile));
+        canvasContainer.style.backgroundImage = URL.createObjectURL(uploadedFile);
+        console.log(canvasContainer.style);
+    };
+};
+
+function checkFileType (fileName) {
+    const fileSuffix = fileName.split('.')[1];
+    console.log(fileSuffix);
+    if (fileSuffix === 'png' || fileSuffix == 'jpg' ) return true;
+}
+
 // -----------------------***### Initializing website on entry ###***----------------------- // 
-createGrid(24);
+
+createGrid(24); 
 addSketchListeners();
 backgroundColorStartup();
 penColorStartup();

@@ -30,7 +30,7 @@ footer {
     display: flex;
     font-family: 'Fascinate', cursive;
     justify-content: center;
-    padding: 15px;
+    padding: 12px;
 }
 
 .header {
@@ -58,6 +58,16 @@ footer p {
 }
 
 /* Color controls */
+
+button {
+    background-color: #E9D5CA;
+    border: 3px solid #827397;
+    border-radius: 20px;
+    color: #4D4C7D;
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 3px;
+}
 
 .color-controls-container {
     background-color: #4D4C7D;
@@ -97,16 +107,6 @@ input[type=color] {
     padding: 20px 0px;
 }
 
-.toggle-button {
-    background-color: #E9D5CA;
-    border: 3px solid #827397;
-    border-radius: 20px;
-    color: #000;
-    font-size: 1.5rem;
-    font-weight: 700;
-    padding: 3px;
-}
-
 .toggle-button:active,
 .active {
     top: 2px;
@@ -122,6 +122,7 @@ input[type=color] {
 /* Interactive Canvas */
 
 .canvas-container {
+    background-image: url('');
     background-color: var(--bgColor);
     border: 5px solid #4D4C7D;
     height: 730px;
@@ -141,20 +142,24 @@ input[type=color] {
 /* Canvas Controls */
 
 .canvas-controls-container {
+    background-color: #4D4C7D;
+    border: 5px solid #E9D5CA;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     gap: 5%;
-    padding-bottom: 50px;
+    padding: 20px;
+    margin: 0 16.5% 20px;
 }
 
 .canvas-controls-container button {
     background-color: #E9D5CA;
-    border: 3px solid #4D4C7D;
+    border: 3px solid #827397;
     border-radius: 20px;
     color: #4D4C7D;
     font-size: 2rem;
     font-weight: 700;
-    padding: 5px;
+    padding: 3px;
     width: 250px;
     transition: all .2s;
     -webkit-transition: all .2s;
@@ -166,4 +171,11 @@ input[type=color] {
     color: #E9D5CA;
     transition: all .2s;
     -webkit-transition: all .2s;
+}
+
+.file-input {
+    background-color: red;
+    display: flex;
+    justify-content: centre;
+    align-items: centre;
 }
