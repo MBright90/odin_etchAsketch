@@ -3,7 +3,7 @@ const root = document.querySelector(':root');
 
 const canvasContainer = document.querySelector('.canvas-container');
 
-const toggleButtons = document.querySelectorAll('.toggle-button');
+const toggleButtons = document.querySelectorAll('.color-toggle-button');
 
 
 // Adds 'mouseover' event listeners when mouse button goes down, and removes them when mouse button goes up.
@@ -113,7 +113,7 @@ function placeColor(e) {
         let newColor = rootStyle.getPropertyValue('--penColor');
         this.style.backgroundColor = newColor;
 
-    // Plus shading mode
+    // Plus shading mode ###DISABLED###
     } else if (colorMode === 'plus-shading-btn') {
         console.log('plus shading')
         // if (!this.dataset.shading) {
@@ -127,7 +127,7 @@ function placeColor(e) {
         //     this.style.backgroundColor = rootStyle.getPropertyValue('--bgColor');
         // };
 
-    // Minus shading mode
+    // Minus shading mode ###DISABLED###
     } else if (colorMode === 'minus-shading-btn') {
         console.log('minus shading');
 
@@ -197,23 +197,38 @@ changeSizeBtn.addEventListener('click', changeSize);
 // Trace functions
 
 const traceInput = document.querySelector('#image-input');
-traceInput.addEventListener('change', addTraceBg)
+traceInput.addEventListener('change', addTraceBg);
 
-let currentTraceFile = '';
+const toggleTraceBtn = document.querySelector('#toggle-trace-button');
+toggleTraceBtn.addEventListener('click', toggleTrace);
+
+let currentTraceFile = `url(./NicePng_dinosaur-png_329937.png)`;
 function addTraceBg (e) {
     const uploadedFile = e.target.files[0];
     if (checkFileType(e.target.files[0].name)) {
-        console.log(URL.createObjectURL(uploadedFile));
-        canvasContainer.style.backgroundImage = URL.createObjectURL(uploadedFile);
-        console.log(canvasContainer.style);
+        currentTraceFile = `url(${URL.createObjectURL(uploadedFile)})`;
+        canvasContainer.style.backgroundImage = currentTraceFile;
+        console.log(toggleTraceBtn);
+        toggleTraceBtn.classList.add('active');
     };
 };
 
 function checkFileType (fileName) {
     const fileSuffix = fileName.split('.')[1];
-    console.log(fileSuffix);
-    if (fileSuffix === 'png' || fileSuffix == 'jpg' ) return true;
-}
+    if (fileSuffix === 'png' || fileSuffix === 'jpg' || fileSuffix === 'jpeg' || fileSuffix === 'svc') return true;
+    alert('Please choose a jpg, svc or png file.');
+};
+
+function toggleTrace () {
+    console.log('button is working')
+    if (toggleTraceBtn.classList.contains('active')) {
+        toggleTraceBtn.classList.remove('active');
+        canvasContainer.style.backgroundImage = '';
+    } else {
+        canvasContainer.style.backgroundImage = currentTraceFile;
+        toggleTraceBtn.classList.add('active');
+    };
+};
 
 // -----------------------***### Initializing website on entry ###***----------------------- // 
 
